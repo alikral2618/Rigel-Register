@@ -4,19 +4,18 @@
   "description": "Premium Discord Bot",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node --trace-warnings index.js",
     "dev": "node index.js"
   },
   "engines": {
     "node": "18.x"
   },
-  "keywords": [],
   "author": "sen kral",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^14.25.1",
     "dotenv": "^16.6.1",
-    "express": "^5.2.1",
+    "express": "^4.19.2",
     "mongoose": "^7.8.9"
   }
 }
