@@ -1,0 +1,21 @@
+{
+  "name": "ultra-discord-bot",
+  "version": "1.0.0",
+  "description": "Premium Discord Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [],
+  "author": "sen kral",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.25.1",
+    "dotenv": "^16.6.1",
+    "mongoose": "^9.3.1"
+  }
+}
