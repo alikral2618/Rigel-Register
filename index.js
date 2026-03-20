@@ -156,4 +156,9 @@ process.on("unhandledRejection", err => console.error(err));
 process.on("uncaughtException", err => console.error(err));
 
 // 🟢 Bot Başlat
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN)
+  .then(() => console.log("🔐 Discord'a giriş yapıldı"))
+  .catch(err => {
+    console.error("❌ Discord Login Hatası:", err);
+    process.exit(1);
+  });
