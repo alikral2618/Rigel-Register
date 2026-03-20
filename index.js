@@ -3,6 +3,7 @@ require("dotenv").config();
 const { Client, GatewayIntentBits, Collection, Partials } = require("discord.js");
 const fs = require("fs");
 const mongoose = require("mongoose");
+const express = require("express");
 
 // 🛑 ENV KONTROL
 if (!process.env.TOKEN) {
@@ -15,7 +16,14 @@ if (!process.env.MONGO_URL) {
   process.exit(1);
 }
 
-// 🤖 Client
+// 🌐 KEEP ALIVE (Railway için)
+const app = express();
+app.get("/", (req, res) => res.send("Bot aktif"));
+app.listen(process.env.PORT || 3000, () => {
+  console.log("🌐 Web server aktif");
+});
+
+// 🤖 CLIENT
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -27,33 +35,33 @@ const client = new Client({
   partials: [Partials.Message, Partials.Channel, Partials.Reaction]
 });
 
-// 📦 Koleksiyonlar
+// 📦 KOLEKSİYONLAR
 client.commands = new Collection();
 client.cooldowns = new Collection();
 client.kayitData = {};
 
-// 🌐 MongoDB (daha stabil bağlantı)
-mongoose.connect(process.env.MONGO_URL, {
-  autoIndex: true
-})
-.then(() => console.log("🟢 MongoDB bağlandı"))
-.catch(err => {
-  console.error("🔴 MongoDB hatası:", err);
-  process.exit(1); // Railway restart atsın
-});
+// 🌐 MONGODB BAĞLANTI (ULTRA STABLE)
+mongoose.set("strictQuery", true);
 
-mongoose.connection.on("connected", () => {
-  console.log("📡 MongoDB bağlantı kuruldu");
-});
+async function connectMongo() {
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log("🟢 MongoDB bağlandı");
+  } catch (err) {
+    console.error("🔴 MongoDB hatası:", err);
+    setTimeout(connectMongo, 5000); // tekrar dene
+  }
+}
+
+connectMongo();
 
 mongoose.connection.on("disconnected", () => {
-  console.log("🔴 MongoDB bağlantısı koptu!");
+  console.log("🔴 MongoDB bağlantısı koptu! Yeniden bağlanılıyor...");
+  connectMongo();
 });
 
 // 📂 COMMAND HANDLER
-if (!fs.existsSync("./commands")) {
-  console.log("⚠️ commands klasörü yok!");
-} else {
+if (fs.existsSync("./commands")) {
   const commandFiles = fs.readdirSync("./commands").filter(f => f.endsWith(".js"));
 
   for (const file of commandFiles) {
@@ -72,12 +80,12 @@ if (!fs.existsSync("./commands")) {
   }
 
   console.log(`🧩 ${client.commands.size} komut yüklendi`);
+} else {
+  console.log("⚠️ commands klasörü yok!");
 }
 
-// 📂 EVENT HANDLER (ULTRA STABLE)
-if (!fs.existsSync("./events")) {
-  console.log("⚠️ events klasörü yok!");
-} else {
+// 📂 EVENT HANDLER
+if (fs.existsSync("./events")) {
   const eventFiles = fs.readdirSync("./events").filter(f => f.endsWith(".js"));
 
   for (const file of eventFiles) {
@@ -89,23 +97,11 @@ if (!fs.existsSync("./events")) {
         continue;
       }
 
-     if (event.once) {
-  client.once(event.name, async (...args) => {
-    try {
-      await event.execute(...args, client);
-    } catch (err) {
-      console.error(`❌ Event Hatası (${event.name}):`, err);
-    }
-  });
-} else {
-  client.on(event.name, async (...args) => {
-    try {
-      await event.execute(...args, client);
-    } catch (err) {
-      console.error(`❌ Event Hatası (${event.name}):`, err);
-    }
-  });
-}
+      if (event.once) {
+        client.once(event.name, (...args) => event.execute(...args, client));
+      } else {
+        client.on(event.name, (...args) => event.execute(...args, client));
+      }
 
     } catch (err) {
       console.error(`❌ Event yüklenemedi (${file}):`, err);
@@ -113,6 +109,8 @@ if (!fs.existsSync("./events")) {
   }
 
   console.log(`⚙️ ${eventFiles.length} event yüklendi`);
+} else {
+  console.log("⚠️ events klasörü yok!");
 }
 
 // 🟢 READY
@@ -120,26 +118,21 @@ client.once("ready", () => {
   console.log(`🤖 ${client.user.tag} aktif!`);
 
   client.user.setPresence({
-    activities: [{ name: "Rigel Register", type: 0 }],
+    activities: [{ name: "Rigel Register", type: "PLAYING" }],
     status: "dnd"
   });
 });
 
-// 🔥 DEBUG EVENT (SİLME - ÇOK ÖNEMLİ)
-client.on("guildMemberAdd", (member) => {
-  console.log("🔥 INDEX GİRİŞ ALGILADI:", member.user.tag);
+// 🔥 DEBUG
+client.on("guildMemberAdd", member => {
+  console.log("🔥 GİRİŞ:", member.user.tag);
 });
 
-// 🔥 ÇIKIŞ TEST
-client.on("guildMemberRemove", (member) => {
-  console.log("🔥 ÇIKIŞ INDEX ALGILADI:", member.user?.tag);
+client.on("guildMemberRemove", member => {
+  console.log("🔥 ÇIKIŞ:", member.user?.tag);
 });
 
-// ⚠️ EXTRA LOG SİSTEMİ
-client.on("warn", console.warn);
-client.on("error", console.error);
-
-// 🛑 GLOBAL HATA YAKALAMA
+// ⚠️ GLOBAL HATA YAKALAMA
 process.on("unhandledRejection", err => {
   console.error("❌ Promise Hatası:", err);
 });
@@ -148,14 +141,7 @@ process.on("uncaughtException", err => {
   console.error("❌ Sistem Hatası:", err);
 });
 
-process.on("uncaughtExceptionMonitor", err => {
-  console.error("❌ Monitor Hatası:", err);
-});
-
-process.on("unhandledRejection", err => console.error(err));
-process.on("uncaughtException", err => console.error(err));
-
-// 🟢 Bot Başlat
+// 🔐 BOT BAŞLAT
 client.login(process.env.TOKEN)
   .then(() => console.log("🔐 Discord'a giriş yapıldı"))
   .catch(err => {
