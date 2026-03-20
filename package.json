@@ -8,8 +8,8 @@
     "dev": "node index.js"
   },
   "engines": {
-    "node": ">=18"
-  },
+  "node": "18.x"
+},
   "keywords": [],
   "author": "sen kral",
   "license": "ISC",
