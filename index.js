@@ -37,7 +37,10 @@ mongoose.connect(process.env.MONGO_URL, {
   autoIndex: true
 })
 .then(() => console.log("🟢 MongoDB bağlandı"))
-.catch(err => console.error("🔴 MongoDB hatası:", err));
+.catch(err => {
+  console.error("🔴 MongoDB hatası:", err);
+  process.exit(1); // Railway restart atsın
+});
 
 mongoose.connection.on("connected", () => {
   console.log("📡 MongoDB bağlantı kuruldu");
@@ -113,12 +116,12 @@ if (!fs.existsSync("./events")) {
 }
 
 // 🟢 READY
-client.once("clientReady", () => {
+client.once("ready", () => {
   console.log(`🤖 ${client.user.tag} aktif!`);
 
   client.user.setPresence({
-    activities: [{ name: "Ultra Kayıt Sistemi 💎", type: 0 }],
-    status: "online"
+    activities: [{ name: "Rigel Register", type: 0 }],
+    status: "dnd"
   });
 });
 
