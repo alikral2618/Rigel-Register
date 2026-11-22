@@ -1,0 +1,200 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 35px 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.small-text {
+    letter-spacing: 6px;
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: clamp(32px, 7vw, 65px);
+    letter-spacing: 5px;
+    text-shadow: 0 0 20px white;
+}
+
+h1 span {
+    color: white;
+    animation: glow 1.5s infinite alternate;
+}
+
+.subtitle {
+    color: #bbb;
+    margin-top: 15px;
+    font-size: 15px;
+    letter-spacing: 2px;
+}
+
+.heart-container {
+    margin: 55px 0;
+}
+
+.heart {
+    font-size: 125px;
+    color: white;
+    animation: heartbeat 1.2s infinite;
+    text-shadow:
+        0 0 10px white,
+        0 0 30px white,
+        0 0 60px #aaa;
+}
+
+.since {
+    font-size: 12px;
+    letter-spacing: 5px;
+    margin-bottom: 25px;
+    color: #ccc;
+}
+
+.counter {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.time-box {
+    width: 105px;
+    padding: 20px 10px;
+    border: 1px solid #777;
+    border-radius: 15px;
+    background: #101010;
+    box-shadow: 0 0 15px #333;
+}
+
+.time-box strong {
+    display: block;
+    font-size: 35px;
+    text-shadow: 0 0 12px white;
+}
+
+.time-box small {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-top: 10px;
+    color: #aaa;
+}
+
+.date {
+    margin-top: 35px;
+    letter-spacing: 4px;
+    font-size: 15px;
+    text-shadow: 0 0 10px white;
+}
+
+.message {
+    margin-top: 35px;
+    line-height: 2;
+    font-size: 16px;
+    color: #ddd;
+}
+
+footer {
+    margin-top: 40px;
+    color: #888;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+#hearts {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.floating-heart {
+    position: absolute;
+    bottom: -30px;
+    color: white;
+    animation: floatUp linear forwards;
+    opacity: 0.8;
+    text-shadow: 0 0 12px white;
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px white;
+    }
+    to {
+        text-shadow: 0 0 30px white, 0 0 50px #aaa;
+    }
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    15% {
+        opacity: 0.8;
+    }
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 500px) {
+    .time-box {
+        width: 75px;
+        padding: 15px 5px;
+    }
+
+    .time-box strong {
+        font-size: 26px;
+    }
+
+    .counter {
+        gap: 8px;
+    }
+
+    .heart {
+        font-size: 100px;
+    }
+
+    h1 {
+        letter-spacing: 2px;
+    }
+}
