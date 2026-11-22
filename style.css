@@ -127,6 +127,8 @@ footer {
     letter-spacing: 2px;
 }
 
+/* Uçuşan beyaz kalpler */
+
 #hearts {
     position: fixed;
     inset: 0;
@@ -144,10 +146,13 @@ footer {
     text-shadow: 0 0 12px white;
 }
 
+/* Animasyonlar */
+
 @keyframes heartbeat {
     0%, 100% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.2);
     }
@@ -157,6 +162,7 @@ footer {
     from {
         text-shadow: 0 0 10px white;
     }
+
     to {
         text-shadow: 0 0 30px white, 0 0 50px #aaa;
     }
@@ -167,14 +173,51 @@ footer {
         transform: translateY(0) rotate(0deg);
         opacity: 0;
     }
+
     15% {
         opacity: 0.8;
     }
+
     to {
         transform: translateY(-110vh) rotate(360deg);
         opacity: 0;
     }
 }
+
+/* GALERİ BUTONU */
+
+.gallery-button {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 9999;
+
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2px;
+
+    border: 1px solid white;
+    border-radius: 30px;
+
+    box-shadow: 0 0 15px rgba(255,255,255,0.4);
+    backdrop-filter: blur(10px);
+
+    transition: 0.3s;
+}
+
+.gallery-button:hover {
+    background: white;
+    color: black;
+    box-shadow: 0 0 30px white;
+    transform: scale(1.08);
+}
+
+/* TELEFON UYUMLULUĞU */
 
 @media (max-width: 500px) {
     .time-box {
@@ -197,16 +240,7 @@ footer {
     h1 {
         letter-spacing: 2px;
     }
-}
 
-.gallery-button:hover {
-    background: white;
-    color: black;
-    box-shadow: 0 0 30px white;
-    transform: scale(1.08);
-}
-
-@media (max-width: 500px) {
     .gallery-button {
         right: 15px;
         bottom: 15px;
