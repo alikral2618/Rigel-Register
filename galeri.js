@@ -12,6 +12,10 @@ const photos = [
         src: "anilar/fotograf3.jpg",
         caption: "Unutulmaz bir gün 🥹"
     }
+    {
+    src: "anilar/fotograf4.jpg",
+    caption: "Seni çok seviyorum 🤍"
+}
 ];
 
 const videos = [
@@ -23,6 +27,10 @@ const videos = [
         src: "anilar/video2.mp4",
         caption: "Birlikte mutluyuz 🤍"
     }
+    {
+    src: "anilar/video3.mp4",
+    caption: "Birlikte bir ömür ❤️"
+}
 ];
 
 const photoGallery = document.getElementById("photoGallery");
