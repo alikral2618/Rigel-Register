@@ -127,7 +127,7 @@ footer {
     letter-spacing: 2px;
 }
 
-/* Uçuşan beyaz kalpler */
+/* UÇUŞAN BEYAZ KALPLER */
 
 #hearts {
     position: fixed;
@@ -144,9 +144,10 @@ footer {
     animation: floatUp linear forwards;
     opacity: 0.8;
     text-shadow: 0 0 12px white;
+    pointer-events: none;
 }
 
-/* Animasyonlar */
+/* ANİMASYONLAR */
 
 @keyframes heartbeat {
     0%, 100% {
@@ -184,16 +185,25 @@ footer {
     }
 }
 
-/* GALERİ BUTONU */
+/* GALERİ BUTONU - SAĞ ALT KÖŞE */
 
 .gallery-button {
-    position: fixed;
-    right: 25px;
-    bottom: 25px;
-    z-index: 9999;
+    position: fixed !important;
 
-    padding: 15px 25px;
-    background: rgba(255, 255, 255, 0.08);
+    right: 20px !important;
+    bottom: 20px !important;
+    left: auto !important;
+    top: auto !important;
+
+    z-index: 99999;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 15px 24px;
+
+    background: rgba(20, 20, 20, 0.9);
     color: white;
 
     text-decoration: none;
@@ -207,7 +217,7 @@ footer {
     box-shadow: 0 0 15px rgba(255,255,255,0.4);
     backdrop-filter: blur(10px);
 
-    transition: 0.3s;
+    transition: all 0.3s ease;
 }
 
 .gallery-button:hover {
@@ -217,9 +227,10 @@ footer {
     transform: scale(1.08);
 }
 
-/* TELEFON UYUMLULUĞU */
+/* TELEFON VE TABLET UYUMLULUĞU */
 
-@media (max-width: 500px) {
+@media screen and (max-width: 600px) {
+
     .time-box {
         width: 75px;
         padding: 15px 5px;
@@ -242,9 +253,15 @@ footer {
     }
 
     .gallery-button {
-        right: 15px;
-        bottom: 15px;
+        position: fixed !important;
+
+        right: 15px !important;
+        bottom: 15px !important;
+        left: auto !important;
+        top: auto !important;
+
         padding: 13px 19px;
         font-size: 11px;
+        letter-spacing: 1px;
     }
 }
