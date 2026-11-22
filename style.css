@@ -198,3 +198,23 @@ footer {
         letter-spacing: 2px;
     }
 }
+
+.gallery-button {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 16px 30px;
+    color: white;
+    text-decoration: none;
+    border: 1px solid white;
+    border-radius: 30px;
+    letter-spacing: 2px;
+    box-shadow: 0 0 15px #555;
+    transition: 0.4s;
+}
+
+.gallery-button:hover {
+    background: white;
+    color: black;
+    box-shadow: 0 0 30px white;
+    transform: scale(1.08);
+}
